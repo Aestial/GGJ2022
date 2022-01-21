@@ -1,48 +1,58 @@
 using Kogane;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // Ensure the component is present on the gameobject the script is attached to
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float movementSpeed = 1000.0f;
+    public float m_MovementSpeed = 1000.0f;
+    private new Rigidbody2D m_Rigidbody2D;
+    private bool m_IsEnabled;
 
-    // Local rigidbody variable to hold a reference to the attached Rigidbody2D component
-    new Rigidbody2D rigidbody2D;
-    private bool isEnabled;    
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        Debug.Log("Move Event"); 
+        if (!m_IsEnabled) return;
+        Debug.Log("Actually about to move");
+        // Handle user input
+        Vector2 input = context.ReadValue<Vector2>();
+        Vector2 targetVelocity = input.normalized;
+        Move(targetVelocity);
+    }
 
     public void Enable()
     {
-        isEnabled = true;
+        m_IsEnabled = true;
     }
 
     public void Disable()
     {
-        rigidbody2D.velocity = Vector2.zero;
-        isEnabled = false;
+        m_Rigidbody2D.velocity = Vector2.zero;
+        m_IsEnabled = false;
     }
 
     void Awake()
     {
-        // Setup Rigidbody for frictionless top down movement and dynamic collision
-        rigidbody2D = GetComponent<Rigidbody2D>();
-
-        rigidbody2D.isKinematic = false;
-        rigidbody2D.angularDrag = 0.0f;
-        rigidbody2D.gravityScale = 0.0f;
+        m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        // Setup Rigidbody for frictionless top down movement and dynamic collision        
+        m_Rigidbody2D.isKinematic = false;
+        m_Rigidbody2D.angularDrag = 0.0f;
+        m_Rigidbody2D.gravityScale = 0.0f;
     }
 
-    void Update()
-    {
-        if(!isEnabled) return;
-        // Handle user input
-        Vector2 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Move(targetVelocity);
-    }
+    // OLD UNITY INPUT MANAGER
+    // void Update()
+    // {
+    //     if(!m_IsEnabled) return;
+    //     // Handle user input
+    //     Vector2 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    //     Move(targetVelocity);
+    // }
 
-    void Move(Vector2 targetVelocity)
+    private void Move(Vector2 targetVelocity)
     {        
         // Set rigidbody velocity
-        rigidbody2D.velocity = (targetVelocity * movementSpeed) * Time.deltaTime; // Multiply the target by deltaTime to make movement speed consistent across different framerates
+        m_Rigidbody2D.velocity = (targetVelocity * m_MovementSpeed) * Time.deltaTime; // Multiply the target by deltaTime to make movement speed consistent across different framerates
     }
 }
