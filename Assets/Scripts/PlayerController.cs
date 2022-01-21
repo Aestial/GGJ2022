@@ -18,7 +18,12 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateState(GameState state)
     {
-        m_Movement.Stop();
-        m_Movement.enabled = state == m_MovingState;
+        if (state == m_MovingState)
+        {
+            m_Movement.Enable();
+        } else
+        {
+            m_Movement.Disable();
+        }
     }
 }

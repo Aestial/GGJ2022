@@ -5,14 +5,21 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    // Local rigidbody variable to hold a reference to the attached Rigidbody2D component
-    new Rigidbody2D rigidbody2D;
-
     public float movementSpeed = 1000.0f;
 
-    public void Stop()
+    // Local rigidbody variable to hold a reference to the attached Rigidbody2D component
+    new Rigidbody2D rigidbody2D;
+    private bool isEnabled;    
+
+    public void Enable()
+    {
+        isEnabled = true;
+    }
+
+    public void Disable()
     {
         rigidbody2D.velocity = Vector2.zero;
+        isEnabled = false;
     }
 
     void Awake()
@@ -27,9 +34,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(!isEnabled) return;
         // Handle user input
         Vector2 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
         Move(targetVelocity);
     }
 
