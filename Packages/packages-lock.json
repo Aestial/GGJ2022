@@ -7,6 +7,15 @@
       "dependencies": {},
       "hash": "221894c45b763e50a4476ccb1d94effb9f12e8f5"
     },
+    "com.brunomikoski.debugpanel": {
+      "version": "0.1.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.textmeshpro": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.dbrizov.naughtyattributes": {
       "version": "2.1.1",
       "depth": 0,
