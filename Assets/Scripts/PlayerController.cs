@@ -1,35 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
+using Kogane;
 using UnityEngine;
 
-// Ensure the component is present on the gameobject the script is attached to
-[RequireComponent(typeof(Rigidbody2D))]
+[MoveTopComponent]
 public class PlayerController : MonoBehaviour
 {
-    // Local rigidbody variable to hold a reference to the attached Rigidbody2D component
-    new Rigidbody2D rigidbody2D;
+    [SerializeField] private GameState m_MovingState;
+    [SerializeField] PlayerMovement m_Movement;
+    private GameState m_CurrentState;
 
-    public float movementSpeed = 1000.0f;
-
-    void Awake()
-    {
-        // Setup Rigidbody for frictionless top down movement and dynamic collision
-        rigidbody2D = GetComponent<Rigidbody2D>();
-
-        rigidbody2D.isKinematic = false;
-        rigidbody2D.angularDrag = 0.0f;
-        rigidbody2D.gravityScale = 0.0f;
-    }
-
-    void Update()
-    {
-        // Handle user input
-        Vector2 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        Move(targetVelocity);
-    }
-
-    void Move(Vector2 targetVelocity)
+    public void ChangeState(GameState state)
     {        
-        // Set rigidbody velocity
-        rigidbody2D.velocity = (targetVelocity * movementSpeed) * Time.deltaTime; // Multiply the target by deltaTime to make movement speed consistent across different framerates
+        m_CurrentState = state;
+        UpdateState(state);
+    }
+
+    private void UpdateState(GameState state)
+    {
+        m_Movement.Stop();
+        m_Movement.enabled = state == m_MovingState;
     }
 }
