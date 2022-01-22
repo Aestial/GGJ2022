@@ -20,8 +20,7 @@ public class Bullet : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D collision)
-    {        
-        Debug.Log("Hit in gameObject with tag: " + collision.gameObject.tag);
+    {  
         if (collision.gameObject.tag == m_PlayerTag)
         {            
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();

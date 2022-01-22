@@ -40,7 +40,6 @@ public class GameController : MonoBehaviour
     private void SwitchTurn(GameState state)
     {
         m_OnTurnChange.Invoke(state);
-        Debug.Log("Turn changed to " + state);
         m_GameState = state;
         StartCoroutine(TickCoroutine());
     }
