@@ -2,19 +2,16 @@ using Kogane;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// Ensure the component is present on the gameobject the script is attached to
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
     public float m_MovementSpeed = 1000.0f;
-    private new Rigidbody2D m_Rigidbody2D;
+    private Rigidbody2D m_Rigidbody2D;
     private bool m_IsEnabled;
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log("Move Event"); 
         if (!m_IsEnabled) return;
-        Debug.Log("Actually about to move");
         // Handle user input
         Vector2 input = context.ReadValue<Vector2>();
         Vector2 targetVelocity = input.normalized;
@@ -28,7 +25,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Disable()
     {
-        m_Rigidbody2D.velocity = Vector2.zero;
+        if (m_Rigidbody2D != null)
+        {
+            m_Rigidbody2D.velocity = Vector2.zero;
+        }
         m_IsEnabled = false;
     }
 
@@ -41,18 +41,9 @@ public class PlayerMovement : MonoBehaviour
         m_Rigidbody2D.gravityScale = 0.0f;
     }
 
-    // OLD UNITY INPUT MANAGER
-    // void Update()
-    // {
-    //     if(!m_IsEnabled) return;
-    //     // Handle user input
-    //     Vector2 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-    //     Move(targetVelocity);
-    // }
-
     private void Move(Vector2 targetVelocity)
-    {        
-        // Set rigidbody velocity
-        m_Rigidbody2D.velocity = (targetVelocity * m_MovementSpeed) * Time.deltaTime; // Multiply the target by deltaTime to make movement speed consistent across different framerates
+    {
+        // Set rigidbody velocity. Multiply the target by deltaTime to make movement speed consistent across different framerates
+        m_Rigidbody2D.velocity = (targetVelocity * m_MovementSpeed) * Time.deltaTime; 
     }
 }

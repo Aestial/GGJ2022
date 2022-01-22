@@ -29,6 +29,7 @@ MonoBehaviour:
     m_Name: package.openupm.com
     m_Url: https://package.openupm.com
     m_Scopes:
+    - com.brunomikoski.debugpanel
     - com.dbrizov.naughtyattributes
     - com.openupm
     m_IsDefault: 0
@@ -38,6 +39,6 @@ MonoBehaviour:
   m_RegistryInfoDraft:
     m_Modified: 0
     m_ErrorMessage: 
-    m_UserModificationsInstanceId: -844
-    m_OriginalInstanceId: -846
+    m_UserModificationsInstanceId: -846
+    m_OriginalInstanceId: -850
   m_LoadAssets: 0
