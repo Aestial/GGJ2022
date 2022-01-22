@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float m_MovementSpeed = 1000.0f;
-    private new Rigidbody2D m_Rigidbody2D;
+    private Rigidbody2D m_Rigidbody2D;
     private bool m_IsEnabled;
 
     public void OnMove(InputAction.CallbackContext context)
@@ -25,7 +25,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Disable()
     {
-        m_Rigidbody2D.velocity = Vector2.zero;
+        if (m_Rigidbody2D != null)
+        {
+            m_Rigidbody2D.velocity = Vector2.zero;
+        }
         m_IsEnabled = false;
     }
 
